@@ -75,10 +75,10 @@ while (_iter < _max_iter)
     // }
     if (diff < cutoff)
     {
-        setdetailattrib(0, "num_iter", _iter, "set");
         break;
     }
     _iter++;
+    setdetailattrib(0, "num_iter", _iter, "set");
 }
 
 v[]@colors;
