@@ -9,6 +9,14 @@ This node uses a VEX implementation of the simple, popular clustering algorithm
 __K-Means__ to generate a color palette based on an input image. The image is
 lightly pre-processed in __COPs__, then a color palette is generated in __SOPs__.
 
+There is an alternate method that uses the Houdini Cluster SOP to cluster the
+colors after moving the points into Lab space. This method is much faster when
+dealing with denser images.
+
+NOTE:
+    Calculations are done in Lab space as opposed to RGB, since it does a better
+    job at separating visually-distinct colors. More about Lab [here|Wp:CIELAB_color_space#Advantages].
+
 No input geometry is required for this node. If you want to extract a color
 palette and reference it in a shader, COP, etc. you can create the ramp on its
 own and channel reference from anywhere within Houdini.
@@ -16,7 +24,7 @@ own and channel reference from anywhere within Houdini.
 NOTE:
     It could probably by much faster. Still a work in progress!
 
-:dev:
+:disclosure: Technical Info
     More info about __K-Means__ [here|Wp:K-means_clustering] and
     [here|https://www.curiousily.com/posts/color-palette-extraction-with-k-means-clustering/]
 
@@ -102,11 +110,32 @@ Convert Image to AcesCG Colorspace:
         See [Hom:hou.Color#ocio_activeDisplays]
 
 ==== Advanced ====
+Method:
+    #id: method
+    VEX K-Means:
+        Vex implementation of the K-means algorithm.
+
+    Houdini Cluster SOP:
+        Use the Houdini [Node:sop/cluster] SOP to cluster the points. Moves the
+        color points into world space by their Lab color position, and clusters
+        there.
+
+        This method can be orders of magnitude faster when dealing with very
+        high resolution images that cannot be downsampled.
+
+    NOTE:
+        The first iteration of this tool used only the VEX implementation. The
+        Houdini Cluster SOP is much more straightforward, and may be made the
+        default method in a future version.
+
 Reformat Source:
     #id: reformat_source
     Set the max axis for the image to be sampled. Keep this value as low as
     possible while still maintaining a desired result for optimization.
     Images can typically be drastically reduced and still produce a good result.
+
+    For images that can't be downsampled very much, use the __Houdini Cluster
+    SOP__ [method|#method] for better speeds.
 
 Cutoff:
     #id: cutoff
