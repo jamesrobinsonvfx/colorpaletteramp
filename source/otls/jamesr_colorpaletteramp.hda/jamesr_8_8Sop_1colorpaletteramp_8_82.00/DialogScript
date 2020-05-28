@@ -1,0 +1,274 @@
+# Dialog script for jamesr::colorpaletteramp::2.00 automatically generated
+
+{
+    name	jamesr::colorpaletteramp::2.00
+    script	jamesr::ramp_colorgram::2.00
+    label	"Color Palette Ramp"
+
+    help {
+	""
+    }
+
+    inputlabel	1	"Geometry to Color (Optional)"
+    inputlabel	2	"Sub-Network Input #2"
+    inputlabel	3	"Sub-Network Input #3"
+    inputlabel	4	"Sub-Network Input #4"
+    outputlabel	1	"Ramped Geometry"
+
+    parm {
+        name    "_show_input_menu"
+        label   "Show Input Menu"
+        type    integer
+        invisible
+        default { "strlen(opinputpath(\".\", 0))>0" }
+        range   { 0 10 }
+        parmtag { "script_callback_language" "python" }
+    }
+    parm {
+        name    "output"
+        label   "Output"
+        type    ordinal
+        default { "0" }
+        menu {
+            "0" "Geometry"
+            "1" "Palette Blocks"
+            "2" "Palette Blocks & Source Image"
+        }
+        range   { 0! 10 }
+        parmtag { "autoscope" "0000000000000000" }
+        parmtag { "script_callback_language" "python" }
+    }
+    groupsimple {
+        name    "folder1"
+        label   "Input"
+        disablewhen "{ _show_input_menu == 0 }"
+        hidewhen "{ _show_input_menu == 0 }"
+
+        parm {
+            name    "bindgroup"
+            label   "Group"
+            type    string
+            default { "" }
+            disablewhen "{ _show_input_menu == 0 }"
+            hidewhen "{ _show_input_menu == 0 }"
+            menutoggle {
+                [ "opmenu -l -a ramp bindgroup" ]
+            }
+            parmtag { "autoscope" "0000000000000000" }
+            parmtag { "script_action" "import soputils\nkwargs['geometrytype'] = kwargs['node'].parmTuple('bindgrouptype')\nkwargs['inputindex'] = 0\nsoputils.selectGroupParm(kwargs)" }
+            parmtag { "script_action_help" "Select geometry from an available viewport.\nShift-click to turn on Select Groups." }
+            parmtag { "script_action_icon" "BUTTONS_reselect" }
+        }
+        parm {
+            name    "bindgrouptype"
+            label   "Group Type"
+            type    ordinal
+            default { "guess" }
+            disablewhen "{ _show_input_menu == 0 }"
+            hidewhen "{ _show_input_menu == 0 }"
+            menu {
+                "guess"     "Guess from Group"
+                "vertices"  "Vertices"
+                "edges"     "Edges"
+                "points"    "Points"
+                "prims"     "Primitives"
+            }
+            parmtag { "autoscope" "0000000000000000" }
+            parmtag { "script_callback_language" "python" }
+        }
+        parm {
+            name    "sepparm"
+            label   "Separator"
+            type    separator
+            default { "" }
+            disablewhen "{ _show_input_menu == 0 }"
+            hidewhen "{ _show_input_menu == 0 }"
+        }
+        parm {
+            name    "bindclass"
+            label   "Run Over"
+            type    ordinal
+            default { "point" }
+            disablewhen "{ _show_input_menu == 0 }"
+            hidewhen "{ _show_input_menu == 0 }"
+            menu {
+                "detail"    "Detail (only once)"
+                "primitive" "Primitives"
+                "point"     "Points"
+                "vertex"    "Vertices"
+            }
+            parmtag { "autoscope" "0000000000000000" }
+            parmtag { "script_callback_language" "python" }
+        }
+        parm {
+            name    "attribute"
+            label   "Attribute"
+            type    string
+            default { "P" }
+            disablewhen "{ _show_input_menu == 0 }"
+            hidewhen "{ _show_input_menu == 0 }"
+            parmtag { "autoscope" "0000000000000000" }
+            parmtag { "parmvop" "1" }
+            parmtag { "shaderparmcontexts" "cvex" }
+        }
+        parm {
+            name    "attribtype"
+            label   "Attribute Type"
+            type    integer
+            default { "1" }
+            disablewhen "{ _show_input_menu == 0 }"
+            hidewhen "{ _show_input_menu == 0 }"
+            menu {
+                "0" "Vertex"
+                "1" "Point"
+                "2" "Primitive"
+                "3" "Detail"
+            }
+            range   { 0 10 }
+            parmtag { "autoscope" "0000000000000000" }
+            parmtag { "parmvop" "1" }
+            parmtag { "shaderparmcontexts" "cvex" }
+        }
+    }
+
+    groupsimple {
+        name    "folder0"
+        label   "Image"
+
+        parm {
+            name    "imagefile"
+            label   "Image"
+            type    image
+            default { "Mandril.pic" }
+            parmtag { "script_callback_language" "python" }
+        }
+        parm {
+            name    "stops"
+            label   "Stops"
+            type    integer
+            default { "6" }
+            range   { 0 10 }
+            parmtag { "script_callback_language" "python" }
+        }
+        parm {
+            name    "sortby"
+            label   "Sort By"
+            type    ordinal
+            default { "1" }
+            menu {
+                "0" "None"
+                "1" "Hue"
+                "2" "Saturation"
+                "3" "Value"
+            }
+            parmtag { "script_callback_language" "python" }
+        }
+        parm {
+            name    "export_colors_array"
+            label   "Export Color Palette Detail Array Attribute"
+            type    toggle
+            default { "0" }
+            parmtag { "script_callback_language" "python" }
+        }
+        parm {
+            name    "do_acesCG"
+            label   "Convert Image to AcesCG Colorspace"
+            type    toggle
+            default { "off" }
+            range   { 0! 8 }
+            parmtag { "autoscope" "0000000000000000" }
+            parmtag { "script_callback" "kwargs[\"node\"].parm(\"linearize\").set(1-kwargs[\"parm\"].eval())" }
+            parmtag { "script_callback_language" "python" }
+        }
+        parm {
+            name    "linearize"
+            label   "Linearize Non-Linear Images"
+            type    toggle
+            default { "on" }
+            disablewhen "{ do_acesCG == 1 }"
+            parmtag { "autoscope" "0000000000000000" }
+            parmtag { "script_callback_language" "python" }
+        }
+        groupcollapsible {
+            name    "folder2"
+            label   "Advanced"
+
+            parm {
+                name    "method"
+                label   "Method"
+                type    ordinal
+                default { "0" }
+                menu {
+                    "0" "VEX K-Means"
+                    "1" "Houdini Cluster SOP"
+                }
+                parmtag { "script_callback_language" "python" }
+            }
+            parm {
+                name    "reformat_source"
+                label   "Reformat Source"
+                type    integer
+                default { "96" }
+                range   { 10 128 }
+                parmtag { "autoscope" "0000000000000000" }
+                parmtag { "script_callback_language" "python" }
+            }
+            parm {
+                name    "cutoff"
+                label   "Cutoff"
+                type    float
+                default { "1" }
+                disablewhen "{ method == 1 }"
+                range   { 0 1 }
+                parmtag { "autoscope" "0000000000000000" }
+                parmtag { "script_callback_language" "python" }
+            }
+            parm {
+                name    "max_iterations"
+                label   "Max Iterations"
+                type    integer
+                default { "20" }
+                range   { 0 10 }
+                parmtag { "autoscope" "0000000000000000" }
+                parmtag { "script_callback_language" "python" }
+            }
+            parm {
+                name    "seed"
+                label   "K-Means Cluster Seed"
+                type    integer
+                default { "3" }
+                range   { 0 10 }
+                parmtag { "autoscope" "0000000000000000" }
+                parmtag { "script_callback_language" "python" }
+            }
+            parm {
+                name    "export_num_iter"
+                label   "Output Final Iteration Number Attribute"
+                type    toggle
+                default { "off" }
+                disablewhen "{ method == 1 }"
+                parmtag { "autoscope" "0000000000000000" }
+                parmtag { "script_callback_language" "python" }
+            }
+        }
+
+    }
+
+    parm {
+        name    "ramp"
+        label   "Result"
+        type    ramp_rgb
+        default { "2" }
+        range   { 1! 10 }
+        parmtag { "autoscope" "0000000000000000" }
+        parmtag { "parmvop" "1" }
+        parmtag { "rampbasis_var" "ramp_the_basis_strings" }
+        parmtag { "rampbasisdefault" "linear" }
+        parmtag { "rampcolordefault" "1pos ( 0 ) 1c ( 0 0 0 ) 1interp ( linear ) 2pos ( 1 ) 2c ( 1 1 1 ) 2interp ( linear )" }
+        parmtag { "rampcolortype" "rgb" }
+        parmtag { "rampkeys_var" "ramp_the_key_positions" }
+        parmtag { "rampshowcontrolsdefault" "1" }
+        parmtag { "rampvalues_var" "ramp_the_key_values" }
+        parmtag { "shaderparmcontexts" "cvex" }
+    }
+}

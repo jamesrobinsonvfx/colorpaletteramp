@@ -1,0 +1,28 @@
+Operator:     jamesr::colorpaletteramp::2.00
+Label:        Color Palette Ramp
+Path:         oplib:/jamesr::Sop/colorpaletteramp::2.00?jamesr::Sop/colorpaletteramp::2.00
+Icon:         VOP_rampparm
+Table:        Sop
+License:      
+Extra:        
+User:         
+Inputs:       0 to 1
+Subnet:       true
+Python:       false
+Empty:        false
+Modified:     Wed May 27 21:33:07 2020
+
+Operator:     jamesr::colorpaletteramp_example::2.00
+Label:        Color Palette Ramp Example
+Path:         oplib:/jamesr::Sop/colorpaletteramp_example::2.00?jamesr::Sop/colorpaletteramp_example::2.00
+Icon:         MISC_present
+Table:        Sop
+License:      
+Extra:        
+User:         
+Inputs:       0 to 0
+Subnet:       true
+Python:       false
+Empty:        false
+Modified:     Wed May 27 21:42:40 2020
+
