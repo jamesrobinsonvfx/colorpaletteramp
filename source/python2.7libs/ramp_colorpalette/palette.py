@@ -111,12 +111,19 @@ def auto_output(node):
         node.parm("output").set(0)
 
 
-def enable_aces(node):
+def toggle_aces(node):
     """Automatically set checkbox for converting sRGB to AcesCG
 
     :param node: This node
     :type node: :class:`hou.Node`
     """
     displays = hou.Color.ocio_activeDisplays()
+    aces_parm = node.parmTuple("do_acesCG")
+    linearize_parm = node.parmTuple("linearize")
     if "ACES" in displays:
-        node.parm("do_acesCG").set(1)
+        aces_parm.set((1,))
+        linearize_parm.set((0,))
+        linearize_parm.disable(True)
+    else:
+        aces_parm.disable(True)
+        linearize_parm.set((1,))
