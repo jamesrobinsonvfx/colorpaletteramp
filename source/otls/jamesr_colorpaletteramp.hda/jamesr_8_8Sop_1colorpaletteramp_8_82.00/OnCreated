@@ -1,7 +1,0 @@
-node = kwargs["node"]
-node.hdaModule().set_seed(node)
-node.hdaModule().add_callback(node)
-node.hdaModule().toggle_aces(node)
-node.hdaModule().auto_output(node)
-
-

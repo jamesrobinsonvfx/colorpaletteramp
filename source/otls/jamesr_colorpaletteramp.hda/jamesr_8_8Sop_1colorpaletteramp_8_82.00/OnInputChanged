@@ -1,2 +1,0 @@
-node = kwargs["node"]
-node.hdaModule().auto_output(node)
