@@ -16,13 +16,7 @@ Since the OTL is pretty straightforward, all the Python code lives in the
 ``Python2.7libs`` directory.
 
 The VEX code is also included, but lives on the wrangles themselves also.
-<<<<<<< HEAD
 [![Overview Video](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/gifs/docs/images/vimeo_screenshot.png)](https://vimeo.com/423896113 "Color Palette Ramp Demo")
-=======
-
-![https://vimeo.com/423896113.jpg](https://vimeo.com/423896113)
-
->>>>>>> 0bd23da7e4b2e365cd42f9612f1c6c7b718b0c61
 # Features
 
 ### Input Detection
