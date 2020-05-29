@@ -1,8 +1,15 @@
 # Color Palette Ramp
-A Houdini HDA that creates a ramp based on a color palette from an image using
-k-means clustering.
+A Houdini HDA that creates a ramp based on a color palette from an image.
 
 ## [Get the HDA](https://github.com/jamesrobinsonvfx/colorpaletteramp/raw/0.3.0/source/otls/bin/jamesr_colorpaletteramp.hda)
+
+*Compatible with __Houdini 18.0__*
+
+This node can be used on its own to create ramps to use elsewhere, or to modify
+the color of the incoming geometry.
+
+The HDA uses k-means clustering in Lab space to group visually-similar colors
+into a set number of clusters, resulting in a color palette from the input image.
 
 Since the OTL is pretty straightforward, all the Python code lives in the
 ``Scripts`` section on the HDA itself. It's also included here in the
@@ -10,35 +17,58 @@ Since the OTL is pretty straightforward, all the Python code lives in the
 
 The VEX code is also included, but lives on the wrangles themselves also.
 
-Compatible with __Houdini 18.0__
-
-# Usage Examples
-
-See this video for a quick rundown on how it works.
-
 # Features
 
-#### Input Detection
+### Input Detection
 Color Palette Ramp can take an input, but does not require one. You can use the
 ramp all on its own if you want to channel reference it elsewhere from within
 Houdini.
 
 ![Gif of adding/removing input](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/gifs/docs/images/auto_input.gif)
 
-#### \# of Stops
+### \# of Stops & HSV Sorting
+You can control the number of swatches you want your ramp to have. 5 - 8 is
+usually plenty!
 
-#### HSV Sorting
+Choose to sort by __Hue__, __Saturation__, __Value__, or nothing at all.
 
-#### ACES Detection
+![Gif of sliding stops and sorting](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/gifs/docs/images/stops_and_sort.gif)
 
-#### K-Means clustering: VEX or Houdini Cluster SOP
+### ACES Detection
+__Color Palette Ramp__ detects your environment's OCIO settings, and automatically
+enables sRGB -> acesCG input conversion.
 
-#### Output Colors Array
-
-#### Ramp Updates Automatically
+![Gif of dropping the node down and checking the ACES box](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/gifs/docs/images/aces_detect.gif)
 
 
-#### Help
+### Clustering
+#### VEX or Houdini Cluster SOP
+Under the hood, the color clusters are calculated using the K-Means algorithm.
+You can choose between a VEX implementation or the Houdini Cluster SOP. All
+calculations are done in Lab space for a nice result.
+
+#### Optimization Tweaks
+You have control over how accurate the resulting palette is. The defaults are
+balanced between quality and speed, leaning a little more towards quality. You
+can drastically downsample the incoming image and still get pretty good results.
+
+![Gif of clustering settings](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/gifs/docs/images/cluster_settings.gif)
+
+### Output Colors Array
+You can output the color swatches as a Detail Array attribute for use elsewhere.
+
+![Image of Export Array Setting](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/gifs/docs/images/export_array3.png)
+
+![Image of wrangle using array](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/gifs/docs/images/export_array2.png)
+
+![Gif of particle system picking from the array](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/gifs/docs/images/export_array3.gif)
+
+### Ramp Updates Automatically
+All changes to the ramp update automatically, so you don't need to press anything
+extra. The ramp creation itself is not time-dependent, so inputting animated geometry should not incur much of a performance hit
+
+
+### Help
 * Help card and tooltips provided just like normal Houdini help.
 * Embedded example (<kbd>RMB</kbd> > __Examples__)
 
