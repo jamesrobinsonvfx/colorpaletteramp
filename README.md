@@ -1,7 +1,7 @@
 # Color Palette Ramp
 A Houdini HDA that creates a ramp based on a color palette from an image.
 
-## [Get the HDA](https://github.com/jamesrobinsonvfx/colorpaletteramp/raw/0.3.0/source/otls/bin/jamesr_colorpaletteramp.hda)
+# [Get the HDA](https://github.com/jamesrobinsonvfx/colorpaletteramp/raw/0.3.0/source/otls/bin/jamesr_colorpaletteramp.hda)
 
 *Compatible with __Houdini 18.0__*
 
@@ -16,7 +16,7 @@ Since the OTL is pretty straightforward, all the Python code lives in the
 ``Python2.7libs`` directory.
 
 The VEX code is also included, but lives on the wrangles themselves also.
-
+[![Overview Video](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/gifs/docs/images/vimeo_screenshot.png)](https://vimeo.com/423896113 "Color Palette Ramp Demo")
 # Features
 
 ### Input Detection
@@ -40,7 +40,6 @@ enables sRGB -> acesCG input conversion.
 
 ![Gif of dropping the node down and checking the ACES box](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/gifs/docs/images/aces_detect.gif)
 
-
 ### Clustering
 #### VEX or Houdini Cluster SOP
 Under the hood, the color clusters are calculated using the K-Means algorithm.
@@ -57,7 +56,7 @@ can drastically downsample the incoming image and still get pretty good results.
 ### Output Colors Array
 You can output the color swatches as a Detail Array attribute for use elsewhere.
 
-![Image of Export Array Setting](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/gifs/docs/images/export_array3.png)
+![Image of Export Array Setting](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/gifs/docs/images/export_array1.png)
 
 ![Image of wrangle using array](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/gifs/docs/images/export_array2.png)
 
@@ -72,5 +71,6 @@ extra. The ramp creation itself is not time-dependent, so inputting animated geo
 * Help card and tooltips provided just like normal Houdini help.
 * Embedded example (<kbd>RMB</kbd> > __Examples__)
 
+![Gif of RMB Examples](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/gifs/docs/images/embedded_example.gif)
 
 
