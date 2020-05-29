@@ -16,7 +16,9 @@ Since the OTL is pretty straightforward, all the Python code lives in the
 ``Python2.7libs`` directory.
 
 The VEX code is also included, but lives on the wrangles themselves also.
-[![Overview Video](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/gifs/docs/images/vimeo_screenshot.png)](https://vimeo.com/423896113 "Color Palette Ramp Demo")
+
+[![Overview Video](https://github.com/jamesrobinsonvfx/colorpaletteramp/master/gifs/docs/images/vimeo_screenshot.png)](https://vimeo.com/423896113 "Color Palette Ramp Demo")
+
 # Features
 
 ### Input Detection
@@ -24,7 +26,7 @@ Color Palette Ramp can take an input, but does not require one. You can use the
 ramp all on its own if you want to channel reference it elsewhere from within
 Houdini.
 
-![Gif of adding/removing input](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/gifs/docs/images/auto_input.gif)
+![Gif of adding/removing input](https://github.com/jamesrobinsonvfx/colorpaletteramp/master/gifs/docs/images/auto_input.gif)
 
 ### \# of Stops & HSV Sorting
 You can control the number of swatches you want your ramp to have. 5 - 8 is
@@ -32,13 +34,13 @@ usually plenty!
 
 Choose to sort by __Hue__, __Saturation__, __Value__, or nothing at all.
 
-![Gif of sliding stops and sorting](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/gifs/docs/images/stops_and_sort.gif)
+![Gif of sliding stops and sorting](https://github.com/jamesrobinsonvfx/colorpaletteramp/master/gifs/docs/images/stops_and_sort.gif)
 
 ### ACES Detection
 __Color Palette Ramp__ detects your environment's OCIO settings, and automatically
 enables sRGB -> acesCG input conversion.
 
-![Gif of dropping the node down and checking the ACES box](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/gifs/docs/images/aces_detect.gif)
+![Gif of dropping the node down and checking the ACES box](https://github.com/jamesrobinsonvfx/colorpaletteramp/master/gifs/docs/images/aces_detect.gif)
 
 ### Clustering
 #### VEX or Houdini Cluster SOP
@@ -51,16 +53,16 @@ You have control over how accurate the resulting palette is. The defaults are
 balanced between quality and speed, leaning a little more towards quality. You
 can drastically downsample the incoming image and still get pretty good results.
 
-![Gif of clustering settings](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/gifs/docs/images/cluster_settings.gif)
+![Gif of clustering settings](https://github.com/jamesrobinsonvfx/colorpaletteramp/master/gifs/docs/images/cluster_settings.gif)
 
 ### Output Colors Array
 You can output the color swatches as a Detail Array attribute for use elsewhere.
 
-![Image of Export Array Setting](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/gifs/docs/images/export_array1.png)
+![Image of Export Array Setting](https://github.com/jamesrobinsonvfx/colorpaletteramp/master/gifs/docs/images/export_array1.png)
 
-![Image of wrangle using array](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/gifs/docs/images/export_array2.png)
+![Image of wrangle using array](https://github.com/jamesrobinsonvfx/colorpaletteramp/master/gifs/docs/images/export_array2.png)
 
-![Gif of particle system picking from the array](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/gifs/docs/images/export_array3.gif)
+![Gif of particle system picking from the array](https://github.com/jamesrobinsonvfx/colorpaletteramp/master/gifs/docs/images/export_array3.gif)
 
 ### Ramp Updates Automatically
 All changes to the ramp update automatically, so you don't need to press anything
@@ -71,6 +73,6 @@ extra. The ramp creation itself is not time-dependent, so inputting animated geo
 * Help card and tooltips provided just like normal Houdini help.
 * Embedded example (<kbd>RMB</kbd> > __Examples__)
 
-![Gif of RMB Examples](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/gifs/docs/images/embedded_example.gif)
+![Gif of RMB Examples](https://github.com/jamesrobinsonvfx/colorpaletteramp/master/gifs/docs/images/embedded_example.gif)
 
 
