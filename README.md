@@ -1,9 +1,18 @@
 # Color Palette Ramp
 A Houdini HDA that creates a ramp based on a color palette from an image.
 
-# [Get the HDA](https://github.com/jamesrobinsonvfx/colorpaletteramp/raw/0.4.2/source/otls/jamesr_colorpaletteramp.hda)
+# [Get the HDA](https://github.com/jamesrobinsonvfx/colorpaletteramp/raw/0.5.0/source/otls/jamesr_colorpaletteramp.hda)
 
 *Compatible with __Houdini 18.0__*
+
+If you are using a Houdini build < 18.0.460, and you are using an ACES workflow,
+be sure to untick "Linearize Non-Linear Images" and tick on "Convert Image to ACEScg Colorspace".
+If you are using 18.0.460+, this step is done for you.
+
+* 18.0.460+ includes the [`hou.Color.ocio_activeDisplays()`](https://www.sidefx.com/docs/houdini/hom/hou/Color.html)
+method. If you're using build 460 or later, the ACEScg toggle
+will be automatically enabled for you if necessary according to
+your OCIO environment.
 
 This node can be used on its own to create ramps to use elsewhere, or to modify
 the color of the incoming geometry.
@@ -13,7 +22,7 @@ into a set number of clusters, resulting in a color palette from the input image
 
 Since the OTL is pretty straightforward, all the Python code lives in the
 ``Scripts`` section on the HDA itself. It's also included here in the
-``Python2.7libs`` directory.
+``Python2.7libs`` directory for inspection.
 
 The VEX code is also included, but lives on the wrangles themselves also.
 
