@@ -117,13 +117,23 @@ def toggle_aces(node):
     :param node: This node
     :type node: :class:`hou.Node`
     """
-    displays = hou.Color.ocio_activeDisplays()
+    enable_aces = False
     aces_parm = node.parmTuple("do_acesCG")
     linearize_parm = node.parmTuple("linearize")
-    if "ACES" in displays:
-        aces_parm.set((1,))
-        linearize_parm.set((0,))
-        linearize_parm.disable(True)
-    else:
+    try:
+        active_displays = hou.Color.ocio_activeDisplays()
+        if "ACES" in active_displays:
+            aces_parm.set((1,))
+            linearize_parm.set((0,))
+            linearize_parm.disable(True)
+            enable_aces = True
+    except AttributeError:
+        # Build < 18.0.460
+        ocio_spaces = hou.Color.ocio_spaces()
+        if "ACES - ACEScg" in ocio_spaces:
+            # Don't disable it, but also don't assume ACES is active
+            # linearize_parm.set((1,))
+            enable_aces = True
+    if not enable_aces:
         aces_parm.disable(True)
         linearize_parm.set((1,))

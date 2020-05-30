@@ -104,10 +104,15 @@ Convert Image to AcesCG Colorspace:
     blown out colors. Enable this to pre-convert the source image before
     computing the color palette.
 
-    NOTE:
+    TIP:
         __Color Palette Ramp__ attempts to enable this automatically when the
-        node is created based on OCIO settings.
+        node is created based on OCIO settings. (Houdini 18.0.460+)
         See [Hom:hou.Color#ocio_activeDisplays]
+
+    NOTE:
+        If you are using a Houdini build < 18.0.460, and you are using an ACES workflow,
+        be sure to untick "Linearize Non-Linear Images" and tick on "Convert Image to ACEScg Colorspace".
+
 
 ==== Advanced ====
 Method:
@@ -180,6 +185,3 @@ Ramp:
     TIP:
         You can ((Shift + LMB)) on ramp stops to select multiple. This is really
         useful for changing all of the stops' interpolation at once.
-
-
-
