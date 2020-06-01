@@ -13,16 +13,6 @@ There is an alternate method that uses the Houdini Cluster SOP to cluster the
 colors after moving the points into Lab space. This method is much faster when
 dealing with denser images.
 
-NOTE:
-    Calculations are done in CIELAB space, as it does a good job at separating
-    visually-distinct colors. More about Lab [here|Wp:CIELAB_color_space#Advantages].
-
-    The color differencing is done using ([Delta E 76|http://zschuessler.github.io/DeltaE/learn/]).
-    Ideally, a future release will use Delta E 2000 for more accuracy.
-
-    The source image is converted to Linear sRGB for a good conversion to the
-    Lab colorspace.
-
 No input geometry is required for this node. If you want to extract a color
 palette and reference it in a shader, COP, etc. you can create the ramp on its
 own and channel reference from anywhere within Houdini.
@@ -34,6 +24,14 @@ NOTE:
     More info about __K-Means__ [here|Wp:K-means_clustering] and
     [here|https://www.curiousily.com/posts/color-palette-extraction-with-k-means-clustering/]
 
+    Calculations are done in CIELAB space, as it does a good job at separating
+    visually-distinct colors. More about Lab [here|Wp:CIELAB_color_space#Advantages].
+
+    The color differencing is done using ([Delta E 76|http://zschuessler.github.io/DeltaE/learn/]).
+    Ideally, a future release will use Delta E 2000 for more accuracy.
+
+    The source image is converted to Linear sRGB for a good conversion to the
+    Lab colorspace.
 
 @inputs
 
