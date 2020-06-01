@@ -5,6 +5,16 @@ A Houdini HDA that creates a ramp based on a color palette from an image.
 
 *Compatible with __Houdini 18.0__*
 
+*You do not need to download the repo for the tool to work*.
+
+Since the OTL is pretty straightforward, all the code lives inside the HDA. I
+added all the Python/Vex/Help here because it's easier to track changes.
+
+This node can be used on its own to create ramps to use elsewhere, or to modify
+the color of the incoming geometry. It uses k-means clustering in Lab space to
+group visually-similar colors into a set number of clusters, resulting in a
+color palette from the input image.
+
 If you are using a Houdini build < 18.0.460, and you are using an ACES workflow,
 be sure to tick on "Convert Image to ACEScg Colorspace". If you are using
 18.0.460+, this step is done for you.
@@ -13,18 +23,6 @@ be sure to tick on "Convert Image to ACEScg Colorspace". If you are using
 method. If you're using build 460 or later, the ACEScg toggle
 will be automatically enabled for you if necessary according to
 your OCIO environment.
-
-This node can be used on its own to create ramps to use elsewhere, or to modify
-the color of the incoming geometry.
-
-The HDA uses k-means clustering in Lab space to group visually-similar colors
-into a set number of clusters, resulting in a color palette from the input image.
-
-Since the OTL is pretty straightforward, all the Python code lives in the
-``Scripts`` section on the HDA itself. It's also included here in the
-``Python2.7libs`` directory for inspection.
-
-The VEX code is also included, but lives on the wrangles themselves also.
 
 [![Overview Video](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/master/docs/images/vimeo_screenshot.png)](https://vimeo.com/423896113 "Color Palette Ramp Demo")
 
