@@ -129,7 +129,6 @@ def toggle_aces(node):
         active_displays = hou.Color.ocio_activeDisplays()
         if "ACES" in active_displays:
             aces_parm.set((1,))
-            # linearize_parm.set((0,))
             linearize_parm.disable(True)
             enable_aces = True
     except AttributeError:
@@ -140,4 +139,3 @@ def toggle_aces(node):
             enable_aces = True
     if not enable_aces:
         aces_parm.disable(True)
-        # linearize_parm.set((1,))
