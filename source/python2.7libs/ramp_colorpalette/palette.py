@@ -58,25 +58,27 @@ def callback_parm_names(node):
     """
     ptg = node.parmTemplateGroup()
     folder = ptg.findFolder("Image")
-    parm_names = recurse_folder(folder, list())
+    parm_names = recurse_parm_template(folder, list())
     return parm_names
 
 
-def recurse_folder(folder, parm_names):
+def recurse_parm_template(template, parm_names):
     """Gather parm names recursively from a Houdini folder parm.
 
-    :param folder: Houdini folder to gather names from
-    :type folder: :class:`hou.FolderParmTemplate`
+    :param template: Houdini parm template/folder to gather names from
+    :type template: :class:`hou.FolderParmTemplate`
     :param parm_names: List of parameter names
     :type parm_names: list
     :return: List of parameter names in the folder
     :rtype: list
     """
-    for parm_template in folder.parmTemplates():
-        if isinstance(parm_template, hou.FolderParmTemplate):
-            return recurse_folder(parm_template, parm_names)
-        else:
+    if not isinstance(template, hou.FolderParmTemplate):
+        return parm_names.append(template.name())
+    for parm_template in template.parmTemplates():
+        if not isinstance(parm_template, hou.FolderParmTemplate):
             parm_names.append(parm_template.name())
+        else:
+            parm_names = recurse_parm_template(parm_template, parm_names)
     return parm_names
 
 
@@ -118,13 +120,13 @@ def toggle_aces(node):
     :type node: :class:`hou.Node`
     """
     enable_aces = False
-    aces_parm = node.parmTuple("do_acesCG")
+    aces_parm = node.parmTuple("do_ACEScg")
     linearize_parm = node.parmTuple("linearize")
     try:
         active_displays = hou.Color.ocio_activeDisplays()
         if "ACES" in active_displays:
             aces_parm.set((1,))
-            linearize_parm.set((0,))
+            # linearize_parm.set((0,))
             linearize_parm.disable(True)
             enable_aces = True
     except AttributeError:
@@ -132,8 +134,7 @@ def toggle_aces(node):
         ocio_spaces = hou.Color.ocio_spaces()
         if "ACES - ACEScg" in ocio_spaces:
             # Don't disable it, but also don't assume ACES is active
-            # linearize_parm.set((1,))
             enable_aces = True
     if not enable_aces:
         aces_parm.disable(True)
-        linearize_parm.set((1,))
+        # linearize_parm.set((1,))
