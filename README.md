@@ -47,15 +47,22 @@ Choose to sort by __Hue__, __Saturation__, __Value__, or nothing at all.
 
 ### ACES Detection
 __Color Palette Ramp__ detects your environment's OCIO settings, and automatically
-enables sRGB -> acesCG input conversion.
+enables sRGB -> ACEScg conversion.
 
 ![Gif of dropping the node down and checking the ACES box](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/master/docs/images/aces_detect.gif)
+
+### Luma Key
+Key out luminance areas that don't interest you to avoid having too many overly
+dark or bright swatches.
+
+![Gif sliding the luminance min/max values](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/master/docs/images/luma_keyer.gif)
 
 ### Clustering
 #### VEX or Houdini Cluster SOP
 Under the hood, the color clusters are calculated using the K-Means algorithm.
 You can choose between a VEX implementation or the Houdini Cluster SOP. All
-calculations are done in Lab space for a nice result.
+calculations are done in Lab space using [Delta E 76](http://zschuessler.github.io/DeltaE/learn/). In the future, this
+would hopefully be changed to [Delta E 2000](http://zschuessler.github.io/DeltaE/learn/)
 
 #### Optimization Tweaks
 You have control over how accurate the resulting palette is. The defaults are
