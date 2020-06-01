@@ -14,8 +14,14 @@ colors after moving the points into Lab space. This method is much faster when
 dealing with denser images.
 
 NOTE:
-    Calculations are done in Lab space as opposed to RGB, since it does a better
-    job at separating visually-distinct colors. More about Lab [here|Wp:CIELAB_color_space#Advantages].
+    Calculations are done in CIELAB space, as it does a good job at separating
+    visually-distinct colors. More about Lab [here|Wp:CIELAB_color_space#Advantages].
+
+    The color differencing is done using ([Delta E 76|http://zschuessler.github.io/DeltaE/learn/]).
+    Ideally, a future release will use Delta E 2000 for more accuracy.
+
+    The source image is converted to Linear sRGB for a good conversion to the
+    Lab colorspace.
 
 No input geometry is required for this node. If you want to extract a color
 palette and reference it in a shader, COP, etc. you can create the ramp on its
@@ -97,12 +103,12 @@ Export Color Palette Detail Array Attribute:
     #id: export_colors_array
     Add the Detail Vector Array attribute __colors__ to output geometry.
 
-Convert Image to AcesCG Colorspace:
+Convert Colors to ACEScg Colorspace:
     #id: do_acesCG
     When working in an ACES color pipeline, it is necssary to convert 8-bit
     albedo images to the acesCG colorspace before rendering in order to avoid
-    blown out colors. Enable this to pre-convert the source image before
-    computing the color palette.
+    blown out colors. Enable this to convert the colors after computing the
+    color palette.
 
     TIP:
         __Color Palette Ramp__ attempts to enable this automatically when the
@@ -110,11 +116,17 @@ Convert Image to AcesCG Colorspace:
         See [Hom:hou.Color#ocio_activeDisplays]
 
     NOTE:
-        If you are using a Houdini build < 18.0.460, and you are using an ACES workflow,
-        be sure to untick "Linearize Non-Linear Images" and tick on "Convert Image to ACEScg Colorspace".
+        If you are using a Houdini build < 18.0.460, and you are using an ACES
+        workflow, be sure to untick "Linearize Non-Linear Images" and tick on
+        "Convert Image to ACEScg Colorspace".
+
+Linearize Colors:
+    #id: linearize
+    Linearizes the result. This is useful for rendering if you are not using an
+    ACES workflow.
 
 
-==== Advanced ====
+==== Color Clustering ====
 Method:
     #id: method
     VEX K-Means:
@@ -142,16 +154,21 @@ Reformat Source:
     For images that can't be downsampled very much, use the __Houdini Cluster
     SOP__ [method|#method] for better speeds.
 
-Cutoff:
+Delta E Cutoff:
     #id: cutoff
     The accuracy of the clustering algorithm. The lower this value is, the more
     accurate the resulting palette will be. __1__ is typically a good balance
     between accuracy and speed.
 
     Cutoff is measured as the Euclidean distance between a color cluster's
-    current position value, and its position value on the previous iteration.
+    current position value in CIELAB space, and its position value on the
+    previous iteration ([Delta E 76|http://zschuessler.github.io/DeltaE/learn/]).
     When this distance is below the cutoff, the value is considered accurate
     enough to exit the loop.
+
+    TIP:
+        See [this page|http://zschuessler.github.io/DeltaE/learn/] for a chart
+        about Delta E
 
 Max Iterations:
     #id: max_iterations
@@ -172,6 +189,19 @@ Output Final Iteration Number Attribute:
     Add the Detail attribute __num_iter__ to the output geometry. __num_iter__
     can be used to see how many times the algorithm needed to loop in order to
     break the [cutoff|#cutoff] threshold.
+
+=== Pre-Process Source Image ===
+If the source image includes a lot of darks/lights that aren't interesting for
+you palette, you can so a simple luma key on the source so that those values
+aren't considered for color clustering.
+
+Luminance Min:
+    #id: luminance_min
+    Values below this number will not be considered for the palette.
+
+Luminance Max:
+    #id: luminance_max
+    Values above this will not be considered for the palette.
 
 === Result ===
 
