@@ -6,8 +6,8 @@ A Houdini HDA that creates a ramp based on a color palette from an image.
 *Compatible with __Houdini 18.0__*
 
 If you are using a Houdini build < 18.0.460, and you are using an ACES workflow,
-be sure to untick "Linearize Non-Linear Images" and tick on "Convert Image to ACEScg Colorspace".
-If you are using 18.0.460+, this step is done for you.
+be sure to tick on "Convert Image to ACEScg Colorspace". If you are using
+18.0.460+, this step is done for you.
 
 * 18.0.460+ includes the [`hou.Color.ocio_activeDisplays()`](https://www.sidefx.com/docs/houdini/hom/hou/Color.html)
 method. If you're using build 460 or later, the ACEScg toggle
