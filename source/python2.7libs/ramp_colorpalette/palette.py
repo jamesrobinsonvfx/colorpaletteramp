@@ -34,9 +34,12 @@ def set_ramp(node, event_type, **kwargs):
     interpolation = hou.rampBasis.Linear
 
     try:
-        colors = node.node("RGB_COLORS").geometry(
-        ).floatListAttribValue("colors")
+        colors = node.node(
+            "RGB_COLORS"
+        ).geometry().floatListAttribValue("colors")
     except AttributeError:
+        return
+    except hou.OperationFailed:
         return
 
     colors = [colors[i:i + 3] for i in range(0, len(colors), 3)]
