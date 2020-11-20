@@ -1,0 +1,30 @@
+int sort_by = chi("sort_by");
+string target_space;
+if (sort_by > 0)
+{
+    target_space = "cspace:hsv";
+}
+else
+{
+    target_space = "cspace:rgb";
+}
+
+for (int i = 0; i < len(v[]@colors); i++)
+{
+    v[]@colors[i] = ctransform("cspace:Lab", target_space, v[]@colors[i]);
+}
+
+if (sort_by > 0)
+{
+    float colorsort[];
+    foreach (vector color; v[]@colors)
+    {
+        push(colorsort, color[sort_by-1]);
+    }
+    int ordering[] = argsort(colorsort);
+    v[]@colors = reorder(v[]@colors, ordering);
+    for (int i = 0; i < len(v[]@colors); i++)
+    {
+        v[]@colors[i] = ctransform("cspace:hsv", "cspace:rgb", v[]@colors[i]);
+    }
+}

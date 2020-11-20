@@ -1,0 +1,88 @@
+#include "kmeans_cluster.h"
+
+function cluster_point[] assign_clusters(cluster clusters[])
+{
+    cluster_point cluster_points[];
+    for (int i = 0; i < npoints(0); i++)
+    {
+        float smallest_dist = 1e10;
+        cluster_point cpoint = cluster_point(i, -1);
+        foreach (cluster c; clusters)
+        {
+            vector point_pos = point(0, "Cd", i);
+            float dist = distance(c.center, point_pos);
+            if (dist < smallest_dist)
+            {
+                smallest_dist = dist;
+                cpoint.cluster_id = c.id;
+            }
+        }
+        push(cluster_points, cpoint);
+    }
+    return cluster_points;
+}
+
+// Initialize starting clusters randomly
+int nclusters = chi("number_of_clusters");
+cluster old_clusters[];
+int seed = chi("seed");
+int k = 0;
+while (len(old_clusters) < nclusters)
+{
+    int rpoint = floor(fit01(rand(k+seed), 0, npoints(0)));
+    cluster c = cluster(k, vector(point(0, "Cd", rpoint)));
+    push(old_clusters, c);
+    k++;
+}
+
+float cutoff = chf("cutoff");
+int _iter = 0;
+int _max_iter = chi("max_iterations");
+while (_iter < _max_iter)
+{
+    float diff = 0.0;
+    cluster_point cpoints[] = assign_clusters(old_clusters);
+
+    for (int i = 0; i < len(old_clusters); i++)
+    {
+        vector old_center = old_clusters[i].center;
+        vector P_points[];
+        foreach (cluster_point cpoint; cpoints)
+        {
+            if (cpoint.cluster_id == i)
+            {
+                push(P_points, vector(point(0, "Cd", cpoint.point_number)));
+            }
+        }
+        vector new_center = avg(P_points);
+
+        // float dist = distance(new_center, old_center);
+        // diff = max(diff, dist);
+        diff = max(diff, distance(new_center, old_center));
+
+        cluster new_cluster = cluster(i, new_center);
+        old_clusters[i] = new_cluster;
+        // printf("%d --> %d: %d, %d\n", old_center, new_center, dist, diff);
+    }
+    // printf("Iteration %d:------------------------------\n", _iter);
+    // if (diff < cutoff)
+    // {
+    //     break;
+    // }
+    // if (chi("output_num_iter"))
+    // {
+    //     setdetailattrib(0, "num_iter", _iter, "set");
+    // }
+    if (diff < cutoff)
+    {
+        break;
+    }
+    _iter++;
+    setdetailattrib(0, "num_iter", _iter, "set");
+}
+
+v[]@colors;
+foreach (cluster c; old_clusters)
+{
+    push(v[]@colors, c.center);
+}

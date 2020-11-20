@@ -3,7 +3,7 @@ A Houdini HDA that creates a ramp based on a color palette from an image.
 
 # [Get the HDA](https://github.com/jamesrobinsonvfx/colorpaletteramp/raw/0.7.0/source/otls/jamesr_colorpaletteramp.hda)
 
-*Compatible with __Houdini 18.0__*
+*Compatible with __Houdini 18.0+__*
 
 *You do not need to download the repo for the tool to work*.
 
@@ -90,3 +90,13 @@ extra. The ramp creation itself is not time-dependent, so inputting animated geo
 ![Gif of RMB Examples](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/master/docs/images/embedded_example.gif)
 
 
+# Installation
+
+At the repo root, there is a [Houdini
+Package](https://www.sidefx.com/docs/houdini/ref/plugins.html) called
+`colorpaletteramp.json`.
+1. Copy this file to wherever you want to search for packages. Typically, this
+   would be in `$HOUDINI_USER_PREF_DIR/packages`.
+2. On line 4, change the value of `INSTALL_DIR` to be the folder containing the
+   repo. In this case, it's just in my Downloads folder
+3. Launch Houdini
