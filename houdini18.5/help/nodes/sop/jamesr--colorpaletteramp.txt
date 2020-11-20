@@ -1,0 +1,215 @@
+= Color Palette Ramp =
+#icon: DATATYPES/ramp.svg
+
+== Overview ==
+
+Extract a color palette from an image and create a Ramp.
+
+This node uses a VEX implementation of the simple, popular clustering algorithm
+__K-Means__ to generate a color palette based on an input image. The image is
+lightly pre-processed in __COPs__, then a color palette is generated in __SOPs__.
+
+There is an alternate method that uses the Houdini Cluster SOP to cluster the
+colors after moving the points into Lab space. This method is much faster when
+dealing with denser images.
+
+No input geometry is required for this node. If you want to extract a color
+palette and reference it in a shader, COP, etc. you can create the ramp on its
+own and channel reference from anywhere within Houdini.
+
+NOTE:
+    It could probably by much faster. Still a work in progress!
+
+:disclosure: Technical Info
+    More info about __K-Means__ [here|Wp:K-means_clustering] and
+    [here|https://www.curiousily.com/posts/color-palette-extraction-with-k-means-clustering/]
+
+    Calculations are done in CIELAB space, as it does a good job at separating
+    visually-distinct colors. More about Lab [here|Wp:CIELAB_color_space#Advantages].
+
+    The color differencing is done using ([Delta E 76|http://zschuessler.github.io/DeltaE/learn/]).
+    Ideally, a future release will use Delta E 2000 for more accuracy.
+
+    The source image is converted to Linear sRGB for a good conversion to the
+    Lab colorspace.
+
+@inputs
+
+Geometry to Color (Optional):
+    SOP geometry to apply the new color ramp to.
+
+    When an input is connected, the output will automatically be set to pass the
+    input geometry through the ramp.
+
+@outputs
+
+Ramped Geometry:
+    [Include:#output/]
+
+@parameters
+=== Output ===
+Output:
+    #id: output
+    Output geometry.
+
+    When *Output* is set to *Geometry*, the ramp will be applied to the input
+    geometry.
+
+    *Palette Blocks* and *Source Image* will output the COP mesh of the Source
+    Image, as well as packed boxes colored with the color palette. This can be
+    useful for checking the resulting color pallete.
+
+=== Input ===
+When an input is connected, this folder will enable itself.
+
+Group:
+    #id: bindgroup
+    The geometry group to apply the color to.
+
+Group Type:
+    #id: bindgrouptype
+    What the group is made of.
+
+Run Over:
+    #id: bindclass
+    Where to add the attribute to the geometry.
+
+Attribute:
+    #id: attribute
+    The attribute to be remapped into color.
+
+Attribute Type:
+    #id: attribtype
+    Where the attribute is located on the geometry.
+
+=== Image ===
+Image:
+    #id: imagefile
+    Name of the file to sample.
+
+Stops:
+    #id: stops
+    Number of palette colors to generate.
+
+Sort By:
+    #id: sortby
+    When set to something other than __None__, the color array will be sorted
+    by the selected component. Options include __Hue__, __Saturation__, and
+    __Value__.
+
+Export Color Palette Detail Array Attribute:
+    #id: export_colors_array
+    Add the Detail Vector Array attribute __colors__ to output geometry.
+
+Convert Colors to ACEScg Colorspace:
+    #id: do_acesCG
+    When working in an ACES color pipeline, it is necssary to convert 8-bit
+    albedo images to the acesCG colorspace before rendering in order to avoid
+    blown out colors. Enable this to convert the colors after computing the
+    color palette.
+
+    TIP:
+        __Color Palette Ramp__ attempts to enable this automatically when the
+        node is created based on OCIO settings. (Houdini 18.0.460+)
+        See [Hom:hou.Color#ocio_activeDisplays]
+
+    NOTE:
+        If you are using a Houdini build < 18.0.460, and you are using an ACES
+        workflow, be sure to untick "Linearize Non-Linear Images" and tick on
+        "Convert Image to ACEScg Colorspace".
+
+Linearize Colors:
+    #id: linearize
+    Linearizes the result. This is useful for rendering if you are not using an
+    ACES workflow.
+
+
+==== Color Clustering ====
+Method:
+    #id: method
+    VEX K-Means:
+        Vex implementation of the K-means algorithm.
+
+    Houdini Cluster SOP:
+        Use the Houdini [Node:sop/cluster] SOP to cluster the points. Moves the
+        color points into world space by their Lab color position, and clusters
+        there.
+
+        This method can be orders of magnitude faster when dealing with very
+        high resolution images that cannot be downsampled.
+
+    NOTE:
+        The first iteration of this tool used only the VEX implementation. The
+        Houdini Cluster SOP is much more straightforward, and may be made the
+        default method in a future version.
+
+Reformat Source:
+    #id: reformat_source
+    Set the max axis for the image to be sampled. Keep this value as low as
+    possible while still maintaining a desired result for optimization.
+    Images can typically be drastically reduced and still produce a good result.
+
+    For images that can't be downsampled very much, use the __Houdini Cluster
+    SOP__ [method|#method] for better speeds.
+
+Delta E Cutoff:
+    #id: cutoff
+    The accuracy of the clustering algorithm. The lower this value is, the more
+    accurate the resulting palette will be. __1__ is typically a good balance
+    between accuracy and speed.
+
+    Cutoff is measured as the Euclidean distance between a color cluster's
+    current position value in CIELAB space, and its position value on the
+    previous iteration ([Delta E 76|http://zschuessler.github.io/DeltaE/learn/]).
+    When this distance is below the cutoff, the value is considered accurate
+    enough to exit the loop.
+
+    TIP:
+        See [this page|http://zschuessler.github.io/DeltaE/learn/] for a chart
+        about Delta E
+
+Max Iterations:
+    #id: max_iterations
+    The maximum number of times to run the clustering loop. Ideally, the cutoff
+    value is achieved before reaching this number. This helps prevent the loop
+    from possibly running forever.
+
+    With a really low cutoff value, you may need to increase the number of
+    iterations that the clustering algorithm is allowed to execute in order to
+    achieve the desired threshold.
+
+K-Means Cluster Seed:
+    #id: seed
+    Random seed to start the clustering from.
+
+Output Final Iteration Number Attribute:
+    #id: export_num_iter
+    Add the Detail attribute __num_iter__ to the output geometry. __num_iter__
+    can be used to see how many times the algorithm needed to loop in order to
+    break the [cutoff|#cutoff] threshold.
+
+=== Pre-Process Source Image ===
+If the source image includes a lot of darks/lights that aren't interesting for
+you palette, you can so a simple luma key on the source so that those values
+aren't considered for color clustering.
+
+Luminance Min:
+    #id: luminance_min
+    Values below this number will not be considered for the palette.
+
+Luminance Max:
+    #id: luminance_max
+    Values above this will not be considered for the palette.
+
+=== Result ===
+
+Ramp:
+    #id: ramp
+    Ramp result of the color palette.
+
+    This ramp will be applied to the input geometry if supplied. You can channel
+    reference it wherever you please.
+
+    TIP:
+        You can ((Shift + LMB)) on ramp stops to select multiple. This is really
+        useful for changing all of the stops' interpolation at once.
