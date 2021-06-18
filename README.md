@@ -1,7 +1,8 @@
 # Color Palette Ramp
 A Houdini HDA that creates a ramp based on a color palette from an image.
 
-# [Get the HDA](https://github.com/jamesrobinsonvfx/colorpaletteramp/raw/0.8.0/source/otls/jamesr_colorpaletteramp.hda)
+# [Get the HDA](https://github.com/jamesrobinsonvfx/colorpaletteramp/raw/0.8.0/houdini18.5/otls/jamesr_colorpaletteramp.hda)
+
 
 *Compatible with __Houdini 18.0+__*
 
