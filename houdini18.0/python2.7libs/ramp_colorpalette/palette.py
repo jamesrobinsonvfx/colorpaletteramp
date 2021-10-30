@@ -37,9 +37,7 @@ def set_ramp(node, event_type, **kwargs):
         colors = node.node(
             "RGB_COLORS"
         ).geometry().floatListAttribValue("colors")
-    except AttributeError:
-        return
-    except hou.OperationFailed:
+    except (AttributeError, hou.OperationFailed):
         return
 
     colors = [colors[i:i + 3] for i in range(0, len(colors), 3)]

@@ -143,9 +143,9 @@ Method:
         Houdini Cluster SOP is much more straightforward, and may be made the
         default method in a future version.
 
-Reformat Source:
+Scale Down Source:
     #id: reformat_source
-    Set the max axis for the image to be sampled. Keep this value as low as
+    Image size will be multiplied by (1 / reformat_source). Keep this value as low as
     possible while still maintaining a desired result for optimization.
     Images can typically be drastically reduced and still produce a good result.
 
