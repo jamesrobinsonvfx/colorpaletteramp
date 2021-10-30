@@ -93,11 +93,10 @@ extra. The ramp creation itself is not time-dependent, so inputting animated geo
 
 # Installation
 
-At the repo root, there is a [Houdini
-Package](https://www.sidefx.com/docs/houdini/ref/plugins.html) called
-`colorpaletteramp.json`.
-1. Copy this file to wherever you want to search for packages. Typically, this
-   would be in `$HOUDINI_USER_PREF_DIR/packages`.
-2. On line 4, change the value of `INSTALL_DIR` to be the folder containing the
-   repo. In this case, it's just in my Downloads folder
+This repo acts as a [Houdini
+Package](https://www.sidefx.com/docs/houdini/ref/plugins.html).
+
+1. Clone or copy this repo to `$HOUDINI_USER_PREFS/packages` (create the
+   `packages` directory if it does not exist).
+2. Move or copy `colorpaletteramp.json` into `$HOUDINI_USER_PREFS/packages`
 3. Launch Houdini

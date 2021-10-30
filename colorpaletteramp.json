@@ -1,32 +1,25 @@
 {
+    "enable": true,
+    "path": "$COLORPALETTERAMP_BUILD_DIR",
     "env": [
         {
-            "INSTALL_DIR": "$HOME/Downloads"
+            "COLORPALETTERAMP_INSTALL_DIR": "$HOUDINI_PACKAGE_PATH/colorpaletteramp"
         },
         {
-            "HOUDINI_PATH": {
-                "value": [
-                    {
-                        "houdini_version>'18.0' and houdini_version<'18.5'": "$INSTALL_DIR/colorpaletteramp/houdini18.0"
-                    },
-                    {
-                        "houdini_version>'18.5' and houdini_version<'19.0'": "$INSTALL_DIR/colorpaletteramp/houdini18.5"
-                    }
-                ]
-            }
+            "COLORPALETTERAMP_BUILD_DIR": [
+                {
+                    "houdini_version >= '18.0' and houdini_version < '18.5'": "$COLORPALETTERAMP_INSTALL_DIR/houdini18.0"
+                },
+                {
+                    "houdini_version >= '18.5' and houdini_version < '19.0'": "$COLORPALETTERAMP_INSTALL_DIR/houdini18.5"
+                },
+                {
+                    "houdini_version >= '19.0' and houdini_version < '19.5'": "$COLORPALETTERAMP_INSTALL_DIR/houdini19.0"
+                }
+            ]
         },
         {
-            "HOUDINI_OTLSCAN_PATH": {
-                "method": "append",
-                "value": [
-                    {
-                        "houdini_version>'18.0' and houdini_version<'18.5'": "$INSTALL_DIR/colorpaletteramp/houdini18.0/otls"
-                    },
-                    {
-                        "houdini_version>'18.5' and houdini_version<'19.0'": "$INSTALL_DIR/colorpaletteramp/houdini18.5/otls"
-                    }
-                ]
-            }
+            "HOUDINI_OTLSCAN_PATH": "$COLORPALETTERAMP_BUILD_DIR/hda"
         }
     ]
 }
