@@ -133,4 +133,5 @@ dmypy.json
 
 .DS_Store
 
-**/otls/**/backup
+otls/backup/
+hda/backup/

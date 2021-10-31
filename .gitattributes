@@ -2,3 +2,4 @@
 .gitignore export-ignore
 README.md export-ignore
 docs/ export-ignore
+hda/backup/ export-ignore
