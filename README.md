@@ -90,6 +90,13 @@ extra. The ramp creation itself is not time-dependent, so inputting animated geo
 
 ![Gif of RMB Examples](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/master/docs/images/embedded_example.gif)
 
+***Update Houdini 19.0***: *It appears SideFX has removed this feature, and it
+was a little buggy in older versions. The extra `colorpaletteramp_example`
+definition has been removed, and replaced with a button to spawn some examples
+from the node directly.*
+
+![New Example Button](https://github.com/jamesrobinsonvfx/colorpaletteramp/blob/master/docs/images/example_button.png)
+
 
 # Installation
 
