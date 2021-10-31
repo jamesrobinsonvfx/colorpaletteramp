@@ -1,15 +1,11 @@
 # Color Palette Ramp
 A Houdini HDA that creates a ramp based on a color palette from an image.
 
-# [Get the HDA](https://github.com/jamesrobinsonvfx/colorpaletteramp/raw/0.8.0/houdini18.5/otls/jamesr_colorpaletteramp.hda)
-
+# [Get the HDA](https://github.com/jamesrobinsonvfx/colorpaletteramp/releases/latest/download/jamesr_colorpaletteramp.hda)
 
 *Compatible with __Houdini 18.0+__*
 
 *You do not need to download the repo for the tool to work*.
-
-Since the OTL is pretty straightforward, all the code lives inside the HDA. I
-added all the Python/Vex/Help here because it's easier to track changes.
 
 This node can be used on its own to create ramps to use elsewhere, or to modify
 the color of the incoming geometry. It uses k-means clustering in Lab space to
